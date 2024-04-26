@@ -1,0 +1,35 @@
+.chatElement {
+    width: 600px;
+    padding-left: 5px;
+    padding-top: 10px;
+ }
+
+ .inputContainer {         
+    display: flex;
+ }
+
+ .msgContainer {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 600px;
+    height: 600px;
+    border-radius: 10px;
+    border: 2px solid gray;
+    background-color: rgb(253, 253, 253);
+    padding: 10px;
+ }
+
+ .localUser {
+    background-color: lightblue;
+ }
+
+ .remoteUser {
+    background-color: lightgreen;
+ }
+
+ .remoteMessage {
+    text-align: right;
+    display: flex;
+    flex-direction: row-reverse;
+ }

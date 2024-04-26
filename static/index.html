@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>ti&m Hack Night Messenger</title>
+   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <div id="app">
+      <main role="main" class="container chatElement">
+         <p>Bern Hack Night</p>
+         <div v-if="username_set">
+            <div v-if="connected">
+               <div class="msgContainer">
+                  <div v-for="msg in messages" :key="msg.id" :class="{'remoteMessage': !msg.isOwnMessage}">
+                     <div class="chip" :class="{'localUser' : msg.isOwnMessage, 'remoteUser': !msg.isOwnMessage}">
+                        <img :src="getUserProfilePictureUrl(msg.sender)" :alt="msg.sender" />
+                        <b>{{ msg.isOwnMessage ? 'Me' : msg.sender}}</b>
+                     </div>
+                     <span style="padding-right: 10px;">{{msg.content}}</span>
+                  </div>
+               </div>
+               <div class="inputContainer chatElement">
+                  <input v-model="outgoingMessage" @keyup.enter="sendMessage" placeholder="Type a message..." autofocus>
+                  <button type="button" class="btn btn-outline-dark" @click="sendMessage" style="float: right"><i
+                        class="material-icons">send</i></button>
+               </div>
+            </div>
+            <div v-else>
+               <div class="preloader-wrapper big active">
+                  <div class="spinner-layer spinner-blue-only">
+                     <div class="circle-clipper left">
+                        <div class="circle"></div>
+                     </div>
+                     <div class="gap-patch">
+                        <div class="circle"></div>
+                     </div>
+                     <div class="circle-clipper right">
+                        <div class="circle"></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div v-else>
+            <label>User hanldle</label>
+            <input v-model="username" @keyup.enter="updateUsernameAndConnect" placeholder="Enter your name.." autofocus>
+
+            <label>Auto-translation</label>
+            <div class="input-field col s12">
+               <select v-model="translationLanguage">
+                  <option value="undefined" selected>No translation</option>
+
+                  <option v-for="option in options" :value="option.value">
+                     {{ option.text }}
+                  </option>
+               </select>
+            </div>
+            <button type="button" class="btn btn-outline-dark" @click="updateUsernameAndConnect">Start
+               chatting
+            </button>
+         </div>
+      </main>
+   </div>
+
+   <audio id="newMessageSound">
+      <source src="https://cdn.pixabay.com/audio/2023/12/09/audio_37d2c0e795.mp3" type="audio/mpeg">
+   </audio>
+
+   <script src="chatapp.js"></script>
+</body>
+
+</html>
