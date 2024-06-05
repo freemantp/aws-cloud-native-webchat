@@ -7,24 +7,24 @@ const docClient = DynamoDBDocumentClient.from(client);
 export const handler = async (event, context) => {
 
   try {
-    
+
     const body = JSON.parse(event.body);
     console.log(body)
-    
-    let updateExpression =  'SET userHandle = :userValue';
-    let updateValues =  {':userValue': body.name};
-    
-     if(body.transationLang) {
+
+    let updateExpression = 'SET userHandle = :userValue';
+    let updateValues = { ':userValue': body.name };
+
+    if (body.transationLang) {
       updateExpression += ', translationLang = :langValue'
       updateValues[':langValue'] = body.transationLang;
-     }
-    
+    }
+
     console.log(updateExpression)
     console.log(updateValues)
-    
+
 
     const command = new UpdateCommand({
-      TableName: process.env.table,
+      TableName: "Connections",
       Key: { connectionId: event.requestContext.connectionId },
       UpdateExpression: updateExpression,
       ExpressionAttributeValues: updateValues,

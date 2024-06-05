@@ -9,7 +9,7 @@ export const handler = async (event, context) => {
   try {
 
     const command = new DeleteCommand({
-      TableName: process.env.table,
+      TableName: "Connections",
       Key: {
         connectionId: event.requestContext.connectionId
       }

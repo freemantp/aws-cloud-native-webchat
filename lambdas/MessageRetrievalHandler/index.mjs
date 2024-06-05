@@ -15,7 +15,7 @@ export const handler = async (event, context) => {
     });
 
     const msgCommand = new ScanCommand({
-      TableName: process.env.messagesTable,
+      TableName: "Messages",
       ProjectionExpression: "userHandle, message",
       ScanIndexForward: false
     });

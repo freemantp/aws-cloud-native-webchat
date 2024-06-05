@@ -14,7 +14,7 @@ export const handler = async (event, context) => {
     const messageContent = JSON.parse(event.body).message;
 
     const scanCommand = new ScanCommand({
-      TableName: process.env.connectionsTable,
+      TableName: "Connections",
       ProjectionExpression: "connectionId, userHandle, translationLang",
     });
 
@@ -55,7 +55,7 @@ export const handler = async (event, context) => {
   }
 };
 
-async function deliverMessages(recipientsConnectionIDs, callerUsername, messageContent, requestContext) { 
+async function deliverMessages(recipientsConnectionIDs, callerUsername, messageContent, requestContext) {
 
   const apiGwClient = new ApiGatewayManagementApiClient({
     apiVersion: '2018-11-29',
@@ -86,7 +86,7 @@ async function persistMessage(callerUsername, messageContent, requestContext) {
   const SIXTY_MINUTES = 3600;
 
   const saveMsgCommand = new PutCommand({
-    TableName: process.env.messagesTable,
+    TableName: "Messages",
     Item: {
       userHandle: callerUsername,
       timestamp: currentEpoch,
@@ -102,7 +102,7 @@ async function initiateTranslation(translationMap, messageContent, callerUsernam
 
   const translationRequired = Object.keys(translationMap).some(lang => lang !== 'undefined');
 
-  if (translationRequired) {    
+  if (translationRequired) {
 
     const translationPromises = Object.entries(translationMap)
       .filter(([lang, ids]) => lang !== 'undefined')

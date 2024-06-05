@@ -10,7 +10,7 @@ export const handler = async (event, context) => {
   try {
 
     const command = new PutCommand({
-      TableName: process.env.table,
+      TableName: "Connections",
       Item: {
         connectionId: event.requestContext.connectionId,
         sourceIp: event.requestContext.identity.sourceIp
@@ -19,11 +19,11 @@ export const handler = async (event, context) => {
 
     await dynamo.send(command);
     return { statusCode: 200, };
-    
+
   } catch (err) {
-    
+
     console.log(err);
     return { statusCode: 500, };
-    
+
   }
 };
