@@ -17,7 +17,7 @@
    <div id="app">
       <main role="main" class="container chatElement">
          <p>Bern Hack Night</p>
-         <div v-if="username_set">
+         <div v-if="isUsernameSet">
             <div v-if="connected">
                <div class="msgContainer">
                   <div v-for="msg in messages" :key="msg.id" :class="{'remoteMessage': !msg.isOwnMessage}">
@@ -53,16 +53,17 @@
          <div v-else>
             <label>User hanldle</label>
             <input v-model="username" @keyup.enter="updateUsernameAndConnect" placeholder="Enter your name.." autofocus>
+            <div v-if="translationEnabled">
+               <label>Auto-translation</label>
+               <div class="input-field col s12">
+                  <select v-model="translationLanguage">
+                     <option value="undefined" selected>No translation</option>
 
-            <label>Auto-translation</label>
-            <div class="input-field col s12">
-               <select v-model="translationLanguage">
-                  <option value="undefined" selected>No translation</option>
-
-                  <option v-for="option in options" :value="option.value">
-                     {{ option.text }}
-                  </option>
-               </select>
+                     <option v-for="option in options" :value="option.value">
+                        {{ option.text }}
+                     </option>
+                  </select>
+               </div>
             </div>
             <button type="button" class="btn btn-outline-dark" @click="updateUsernameAndConnect">Start
                chatting

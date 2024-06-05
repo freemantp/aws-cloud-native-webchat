@@ -1,14 +1,20 @@
 const { createApp, onMounted, onUnmounted, ref } = Vue;
 
+/// INSERT YOUR WEBSOCKET URL HERE
+const WEBSOCKET_URL = "wss://your-api.eu-central-1.amazonaws.com/production/"
+const TRANSLATION_ENABLED = false
+// DO NOT EDIT BEYOND THIS LINE
+
 createApp({
     setup() {
         const username = ref("");
-        const username_set = ref(false);
+        const isUsernameSet = ref(false);
         const connected = ref(false);
         const messages = ref([]);
         const outgoingMessage = ref("");
         const ws = ref(undefined);
         const notificationsEnabled = ref(false);
+        const translationEnabled = ref(TRANSLATION_ENABLED)
         const translationLanguage = ref(undefined);
         let intervalId;
 
@@ -53,9 +59,7 @@ createApp({
         };
 
         const connect = () => {
-            ws.value = new WebSocket(
-                "wss://v916r8itrb.execute-api.eu-central-1.amazonaws.com/production/"
-            );
+            ws.value = new WebSocket(WEBSOCKET_URL);
 
             ws.value.onopen = () => {
                 connected.value = true;
@@ -172,7 +176,7 @@ createApp({
             if (localStorage) {
                 localStorage.setItem("userName", username.value);
             }
-            username_set.value = true;
+            isUsernameSet.value = true;
 
             connect();
         };
@@ -194,13 +198,14 @@ createApp({
             messages,
             outgoingMessage,
             username,
-            username_set,
+            isUsernameSet,
             translationLanguage,
             options: availableLanguages,
             sendMessage,
             updateUserHandleRemote,
             updateUsernameAndConnect,
             updateTranslationLanguage,
+            translationEnabled,
             getUserProfilePictureUrl,
             heartbeat,
         };
