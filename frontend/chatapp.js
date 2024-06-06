@@ -149,7 +149,7 @@ createApp({
 
         const updateUserHandleRemote = (userName, translationLang) => {
             const mesage_body = {
-                action: "setname",
+                action: "updatedetails",
                 name: userName,
             };
 
